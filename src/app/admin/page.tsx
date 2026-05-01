@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
+const API_URL = 'https://nexavo-backend.vercel.app';
+
 export default function AdminLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -17,7 +19,7 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
         username,
         password,
       });
@@ -82,6 +84,11 @@ export default function AdminLogin() {
           </button>
         </form>
 
+        <div className="mt-6 text-center text-sm text-gray-400">
+          <p>Default credentials:</p>
+          <p>Username: nexavo</p>
+          <p>Password: Nexavo@2024</p>
+        </div>
       </div>
     </div>
   );

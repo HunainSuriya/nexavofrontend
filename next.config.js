@@ -1,9 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   images: {
-    domains: ['localhost', 'your-backend-url.onrender.com'], // Add your backend URL later
+    unoptimized: true,
+    domains: ['localhost'],
   },
-  output: 'standalone', // For better Netlify deployment
+  trailingSlash: true,
+  // Disable font optimization
+  optimizeFonts: false,
 }
 
 module.exports = nextConfig

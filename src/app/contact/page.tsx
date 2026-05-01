@@ -15,6 +15,8 @@ import {
   Briefcase
 } from 'lucide-react';
 
+const API_URL = 'https://nexavo-backend.vercel.app';
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     client_name: '',
@@ -35,13 +37,14 @@ export default function Contact() {
     setStatus({ type: '', message: '' });
 
     try {
-      await axios.post('http://localhost:5000/api/enquiries', formData);
+      await axios.post(`${API_URL}/api/enquiries`, formData);
       setStatus({ 
         type: 'success', 
         message: 'Message sent successfully! We will contact you within 24 hours.' 
       });
       setFormData({ client_name: '', email: '', project_type: '', message: '' });
     } catch (error) {
+      console.error('Error:', error);
       setStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
     } finally {
       setLoading(false);
@@ -67,7 +70,6 @@ export default function Contact() {
 
   return (
     <>
-      {/* Hero Section */}
       <section className="relative min-h-[40vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-pink-900/20" />
         <div className="absolute inset-0">
@@ -88,7 +90,7 @@ export default function Contact() {
               className="inline-block mb-6"
             >
               <span className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-sm">
-                 Get in Touch
+                📬 Get in Touch
               </span>
             </motion.div>
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -101,11 +103,9 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Info */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -140,7 +140,7 @@ export default function Contact() {
                 <h2 className="text-2xl font-bold mb-4">Office Hours</h2>
                 <div className="space-y-2 text-gray-300">
                   <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                  <p>Saturday: closed</p>
+                  <p>Saturday: 10:00 AM - 2:00 PM</p>
                   <p>Sunday: Closed</p>
                 </div>
               </div>
@@ -157,7 +157,6 @@ export default function Contact() {
               </div>
             </motion.div>
 
-            {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -179,7 +178,7 @@ export default function Contact() {
                     value={formData.client_name}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-purple-500 focus:outline-none transition-colors"
-                    placeholder="Name Here"
+                    placeholder="John Doe"
                   />
                 </div>
 
@@ -195,7 +194,7 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-purple-500 focus:outline-none transition-colors"
-                    placeholder="Email Here"
+                    placeholder="john@example.com"
                   />
                 </div>
 
@@ -268,7 +267,6 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Map Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <motion.div

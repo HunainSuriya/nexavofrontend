@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import { 
   ExternalLink, 
-  Filter, 
   X,
   Eye,
-  Calendar,
   Tag
 } from 'lucide-react';
+
+const API_URL = 'https://nexavo-backend.vercel.app';
 
 export default function Portfolio() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -42,11 +42,12 @@ export default function Portfolio() {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/projects`);
+      const response = await axios.get(`${API_URL}/api/projects`);
       setProjects(response.data.projects || []);
       setFilteredProjects(response.data.projects || []);
     } catch (error) {
       console.error('Error fetching projects:', error);
+      setProjects([]);
     } finally {
       setLoading(false);
     }
@@ -54,7 +55,6 @@ export default function Portfolio() {
 
   return (
     <>
-      {/* Hero Section */}
       <section className="relative min-h-[40vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-pink-900/20" />
         <div className="absolute inset-0">
@@ -75,7 +75,7 @@ export default function Portfolio() {
               className="inline-block mb-6"
             >
               <span className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-sm">
-                 Our Work
+                ✨ Our Work
               </span>
             </motion.div>
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
@@ -88,10 +88,8 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Portfolio Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          {/* Category Filter */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -115,7 +113,6 @@ export default function Portfolio() {
             ))}
           </motion.div>
 
-          {/* Projects Grid */}
           {loading ? (
             <div className="flex justify-center py-20">
               <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin" />
@@ -144,7 +141,7 @@ export default function Portfolio() {
                     <div className="relative overflow-hidden h-64">
                       {project.image_url && (
                         <img
-                          src={`http://localhost:5000${project.image_url}`}
+                          src={`${API_URL}${project.image_url}`}
                           alt={project.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
@@ -172,7 +169,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Project Modal */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
@@ -197,7 +193,7 @@ export default function Portfolio() {
               </button>
               
               <img
-                src={`http://localhost:5000${selectedProject.image_url}`}
+                src={`${API_URL}${selectedProject.image_url}`}
                 alt={selectedProject.title}
                 className="w-full h-96 object-cover"
               />

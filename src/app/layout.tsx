@@ -1,14 +1,10 @@
 'use client';
 
-import { Inter, Space_Grotesk } from 'next/font/google';
+import { AnimatePresence, motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import './globals.css';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
-import { motion, AnimatePresence } from 'framer-motion';
-import { usePathname } from 'next/navigation';
-
-const inter = Inter({ subsets: ['latin'] });
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'] });
 
 export default function RootLayout({
   children,
@@ -19,7 +15,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} ${spaceGrotesk.className}`}>
+      <body>
         <Navbar />
         <AnimatePresence mode="wait">
           <motion.main

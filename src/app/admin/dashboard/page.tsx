@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
+const API_URL = 'https://nexavo-backend.vercel.app';
+
 interface Project {
   id: number;
   title: string;
@@ -63,8 +65,8 @@ export default function AdminDashboard() {
   const fetchData = async () => {
     try {
       const [projectsRes, enquiriesRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/projects'),
-        axios.get('http://localhost:5000/api/enquiries', {
+        axios.get(`${API_URL}/api/projects`),
+        axios.get(`${API_URL}/api/enquiries`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -94,11 +96,11 @@ export default function AdminDashboard() {
 
     try {
       if (isEditing && formData.id) {
-        await axios.put(`http://localhost:5000/api/projects/${formData.id}`, submitData, {
+        await axios.put(`${API_URL}/api/projects/${formData.id}`, submitData, {
           headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
         });
       } else {
-        await axios.post('http://localhost:5000/api/projects', submitData, {
+        await axios.post(`${API_URL}/api/projects`, submitData, {
           headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
         });
       }
@@ -126,7 +128,7 @@ export default function AdminDashboard() {
   const handleDelete = async (id: number) => {
     if (confirm('Are you sure you want to delete this project?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/projects/${id}`, {
+        await axios.delete(`${API_URL}/api/projects/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         fetchData();
@@ -283,7 +285,7 @@ export default function AdminDashboard() {
                   <div className="flex items-center gap-4">
                     {project.image_url && (
                       <img 
-                        src={`http://localhost:5000${project.image_url}`} 
+                        src={`${API_URL}${project.image_url}`} 
                         alt={project.title} 
                         className="w-16 h-16 object-cover rounded"
                       />
